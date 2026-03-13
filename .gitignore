@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+
+# Static export artifacts
+docs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local backup files created during this session
+*.bak
