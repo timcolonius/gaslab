@@ -51,6 +51,14 @@ def write_pages_markers() -> None:
     (DOCS / ".nojekyll").write_text("")
 
 
+def ensure_index_html() -> None:
+    app_html = DOCS / "app.html"
+    index_html = DOCS / "index.html"
+    if not app_html.exists():
+        raise FileNotFoundError("docs/app.html not found after Panel export.")
+    shutil.copy2(app_html, index_html)
+
+
 def main() -> None:
     worker_js = DOCS / "app.js"
     if not worker_js.exists():
@@ -62,11 +70,13 @@ def main() -> None:
     patch_worker_js(worker_js, wheel.name)
     copy_assets()
     write_pages_markers()
+    ensure_index_html()
 
     print(f"Copied wheel: {target_wheel}")
     print(f"Patched worker: {worker_js}")
     print(f"Copied assets to: {DOCS / 'assets'}")
     print(f"Wrote Pages marker: {DOCS / '.nojekyll'}")
+    print(f"Wrote Pages entrypoint: {DOCS / 'index.html'}")
 
 
 if __name__ == "__main__":
