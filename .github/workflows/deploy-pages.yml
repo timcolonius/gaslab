@@ -40,7 +40,9 @@ jobs:
 
       - name: Export static app
         run: |
-          panel convert app.py --to pyodide-worker --out docs
+          rm -rf docs
+          mkdir -p docs/app
+          panel convert app.py --to pyodide-worker --out docs/app
           python scripts/prepare_static_export.py
 
       - name: Upload Pages artifact
