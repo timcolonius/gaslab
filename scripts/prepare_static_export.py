@@ -47,6 +47,10 @@ def copy_assets() -> None:
     shutil.copy2(ASSETS / "gaslab_banner.png", target_assets / "gaslab_banner.png")
 
 
+def write_pages_markers() -> None:
+    (DOCS / ".nojekyll").write_text("")
+
+
 def main() -> None:
     worker_js = DOCS / "app.js"
     if not worker_js.exists():
@@ -57,10 +61,12 @@ def main() -> None:
     shutil.copy2(wheel, target_wheel)
     patch_worker_js(worker_js, wheel.name)
     copy_assets()
+    write_pages_markers()
 
     print(f"Copied wheel: {target_wheel}")
     print(f"Patched worker: {worker_js}")
     print(f"Copied assets to: {DOCS / 'assets'}")
+    print(f"Wrote Pages marker: {DOCS / '.nojekyll'}")
 
 
 if __name__ == "__main__":
