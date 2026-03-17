@@ -13,7 +13,7 @@ from gaslab.plotting import (
     theta_beta_m_figure,
 )
 from gaslab.relations import pbyp0, tbyt0
-from ui_tooltips import TOOLTIPS
+from gaslab.ui_tooltips import TOOLTIPS
 
 pn.extension(
     sizing_mode="stretch_width",

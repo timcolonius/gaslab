@@ -29,6 +29,6 @@ TOOLTIPS = {
     "area_button": "Apply a quasi-one-dimensional isentropic area change to the current final state.",
     "fanno_button": "Apply a Fanno-flow friction process to the current final state.",
     "rayleigh_button": "Apply a Rayleigh-flow heat-transfer process to the current final state.",
-    "deflect_button": "Apply a supersonic flow turn rom the current final state through an oblique shock or Prandtl-Meyer expansion.",
+    "deflect_button": "Apply a supersonic flow turn from the current final state through an oblique shock or Prandtl-Meyer expansion.",
     "copy_python_button": "Copy the equivalent chained Python expression for the current process history.",
 }
