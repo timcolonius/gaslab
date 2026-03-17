@@ -43,7 +43,13 @@ jobs:
           mkdir -p docs
           rm -rf docs/app
           mkdir -p docs/app
-          panel convert app.py --to pyodide-worker --out docs/app
+          panel convert app.py \
+            --to pyodide-worker \
+            --compiled \
+            --pwa \
+            --disable-http-patch \
+            --requirements scripts/pyodide_requirements.txt \
+            --out docs/app
           python scripts/prepare_static_export.py
 
       - name: Upload Pages artifact

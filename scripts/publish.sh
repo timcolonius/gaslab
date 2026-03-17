@@ -27,7 +27,13 @@ echo "Rebuilding static site..."
 mkdir -p docs
 rm -rf docs/app
 mkdir -p docs/app
-"${PANEL_BIN}" convert app.py --to pyodide-worker --out docs/app
+"${PANEL_BIN}" convert app.py \
+  --to pyodide-worker \
+  --compiled \
+  --pwa \
+  --disable-http-patch \
+  --requirements scripts/pyodide_requirements.txt \
+  --out docs/app
 "${PYTHON_BIN}" scripts/prepare_static_export.py
 
 echo

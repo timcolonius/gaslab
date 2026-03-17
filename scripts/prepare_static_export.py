@@ -11,6 +11,7 @@ Resulting layout:
 """
 
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -44,9 +45,26 @@ def newest_wheel() -> Path:
 
 def patch_worker_js(worker_path: Path, wheel_name: str) -> None:
     text = worker_path.read_text()
-    if "'gaslab'" not in text:
-        raise RuntimeError(f"Could not find bare 'gaslab' dependency in {worker_path}")
-    worker_path.write_text(text.replace("'gaslab'", f"'./{wheel_name}'", 1))
+    wheel_ref = f"'./{wheel_name}'"
+    if wheel_ref in text:
+        return
+
+    if "'gaslab'" in text:
+        text = text.replace("'gaslab'", wheel_ref, 1)
+        worker_path.write_text(text)
+        return
+
+    match = re.search(r"await micropip\.install\(\[(.*?)\]\);", text, flags=re.DOTALL)
+    if match is None:
+        raise RuntimeError(f"Could not find micropip.install requirement list in {worker_path}")
+
+    current = match.group(1).rstrip()
+    if current:
+        replacement = current + f", {wheel_ref}"
+    else:
+        replacement = wheel_ref
+    text = text[: match.start(1)] + replacement + text[match.end(1) :]
+    worker_path.write_text(text)
 
 
 def copy_assets() -> None:
