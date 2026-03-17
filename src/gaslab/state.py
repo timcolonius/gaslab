@@ -8,6 +8,7 @@ that return new ``GasState`` objects.
 """
 
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -562,6 +563,14 @@ class GasState:
         if self.m < 1:
             return float("-inf")
         return math.asin(1 / self.m)
+
+    @property
+    def shockang(self) -> Optional[float]:
+        """Oblique-shock angle in radians, or ``None`` if not applicable."""
+        match = re.match(r"oblique shock \(([-+0-9.]+)\s+deg\)", self.proc)
+        if match is None:
+            return None
+        return math.radians(float(match.group(1)))
 
     @property
     def thetamax(self) -> float:
