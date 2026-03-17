@@ -26,6 +26,8 @@ ASSETS = ROOT / "assets"
 
 def build_local_wheel() -> None:
     DIST.mkdir(parents=True, exist_ok=True)
+    for wheel in DIST.glob("gaslab-*.whl"):
+        wheel.unlink()
     subprocess.run(
         [sys.executable, "-m", "pip", "wheel", ".", "-w", str(DIST), "--no-deps"],
         cwd=ROOT,
@@ -34,10 +36,8 @@ def build_local_wheel() -> None:
 
 
 def newest_wheel() -> Path:
+    build_local_wheel()
     wheels = sorted(DIST.glob("gaslab-*.whl"))
-    if not wheels:
-        build_local_wheel()
-        wheels = sorted(DIST.glob("gaslab-*.whl"))
     if not wheels:
         raise FileNotFoundError("No gaslab wheel found in dist/ after attempting a local wheel build.")
     return wheels[-1]

@@ -226,7 +226,10 @@ class GasState:
         s2.dimmode = self.dimmode
         s2.defaults = self.defaults
 
-        s2.m = mach_from_fstar(f2, self.gamma, self.m, small=self.defaults.small)
+        if abs(f2) <= self.defaults.small:
+            s2.m = 1.0
+        else:
+            s2.m = mach_from_fstar(f2, self.gamma, self.m, small=self.defaults.small)
         exponent = (self.gamma + 1) / (2 * self.gamma)
         s2.p0 = (
             self.p0
@@ -282,7 +285,10 @@ class GasState:
         s2.dimmode = self.dimmode
         s2.defaults = self.defaults
 
-        s2.m = mach_from_t0star(f2, self.gamma, self.m, small=self.defaults.small)
+        if abs(f2 - 1.0) <= self.defaults.small:
+            s2.m = 1.0
+        else:
+            s2.m = mach_from_t0star(f2, self.gamma, self.m, small=self.defaults.small)
         s2.t0 = self.t0 * t0ratio
         s2.p0 = (
             self.p0
@@ -424,7 +430,10 @@ class GasState:
         s2.defaults = self.defaults
 
         # process update
-        s2.m = mach_from_arstar(a2, self.gamma, subsonic=subsonic, small=self.defaults.small)
+        if abs(a2 - 1.0) <= self.defaults.small:
+            s2.m = 1.0
+        else:
+            s2.m = mach_from_arstar(a2, self.gamma, subsonic=subsonic, small=self.defaults.small)
         s2.p0 = self.p0
         s2.t0 = self.t0
         s2.proc = "areachg"
@@ -579,6 +588,8 @@ class GasState:
 
         if self.m < 1:
             return float("-inf")
+        if self.m == 1:
+            return 0.0
         theta, _ = thetamax(self.m, self.gamma, small=self.defaults.small)
         return theta
     

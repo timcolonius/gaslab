@@ -71,6 +71,91 @@ def _fanno_curve(m0: float, s0: float, t0: float, gamma: float, machrange: np.nd
     return x, y
 
 
+def process_figure(state: GasState, property_name: str = "mach", property_label: str = "Mach"):
+    """
+    Create a single-metric process-history bar chart.
+
+    Parameters
+    ----------
+    state : GasState
+        Final state in a process chain.
+    property_name : str, default "mach"
+        Name of the numeric ``GasState`` attribute or property to plot.
+    property_label : str, default "Mach"
+        Display label for the selected property.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        Figure containing the process-history chart.
+    """
+    states = list(state.history())
+    fontsize = states[0].defaults.fontsize
+
+    fig = Figure(figsize=(6.5, 4.5))
+    FigureCanvasAgg(fig)
+    _attach_notebook_repr(fig)
+    ax = fig.subplots()
+
+    labels = [f"{idx}. {st.proc}" for idx, st in enumerate(states, start=1)]
+    ypos = np.arange(len(states))
+    colors = [STATE_COLORS[i % len(STATE_COLORS)] for i in range(len(states))]
+    values = []
+    defined = []
+    for st in states:
+        try:
+            value = float(getattr(st, property_name))
+        except Exception:
+            value = np.nan
+        values.append(value)
+        defined.append(np.isfinite(value))
+
+    finite_values = [value for value, ok in zip(values, defined) if ok]
+    if finite_values:
+        xmin = min(0.0, min(finite_values))
+        xmax = max(1.0, max(finite_values))
+    else:
+        xmin = 0.0
+        xmax = 1.0
+    span = xmax - xmin
+    if span <= 0:
+        span = max(1.0, abs(xmax), abs(xmin))
+    xpad = 0.18 * span
+    text_offset = 0.02 * span
+    undefined_x = xmin + 0.04 * span
+    for y, value, color, ok in zip(ypos, values, colors, defined):
+        if ok:
+            ax.barh(y, value, color=color, height=0.65)
+
+    ax.set_title(property_label, fontsize=fontsize)
+    ax.set_xlabel(property_label)
+    ax.set_yticks([])
+    ax.invert_yaxis()
+    ax.grid(True, axis="x", alpha=0.35)
+    ax.set_xlim(xmin - 0.02 * span, xmax + xpad)
+
+    for y, value, label, ok in zip(ypos, values, labels, defined):
+        if ok:
+            label_x = value + text_offset if value >= 0 else value - text_offset
+            ha = "left" if value >= 0 else "right"
+            text = label
+        else:
+            label_x = undefined_x
+            ha = "left"
+            text = f"{label} (undefined)"
+        ax.text(
+            label_x,
+            y,
+            text,
+            ha=ha,
+            va="center",
+            fontsize=max(7, fontsize - 3),
+        )
+
+    fig.tight_layout()
+    return fig
+
+
 def mollier_figure(state: GasState):
     """
     Create a Mollier (T-s) diagram for a state and its history.
