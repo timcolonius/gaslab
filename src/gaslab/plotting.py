@@ -7,9 +7,12 @@ plots from the original MATLAB version. The plotting functions operate on
 """
 
 from itertools import cycle
+import io
 import re
+import types
 
 import numpy as np
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
 from .relations import nspr, pbyp0, pmnu, tbm, thetamax
@@ -23,6 +26,20 @@ STATE_COLORS = (
     "#E69F00",
     "#56B4E9",
 )
+
+
+def _attach_notebook_repr(fig: Figure) -> Figure:
+    def _repr_png_(self):
+        buffer = io.BytesIO()
+        self.savefig(buffer, format="png", bbox_inches="tight")
+        return buffer.getvalue()
+
+    def _repr_mimebundle_(self, include=None, exclude=None):
+        return {"image/png": self._repr_png_()}, {}
+
+    fig._repr_png_ = types.MethodType(_repr_png_, fig)
+    fig._repr_mimebundle_ = types.MethodType(_repr_mimebundle_, fig)
+    return fig
 
 
 def _machrange_array(defaults) -> np.ndarray:
@@ -81,6 +98,8 @@ def mollier_figure(state: GasState):
     stagtemp = np.array([st.stagtemp for st in states], dtype=float)
 
     fig = Figure(figsize=(5.5, 4.5))
+    FigureCanvasAgg(fig)
+    _attach_notebook_repr(fig)
     ax = fig.subplots()
 
     for idx, st in enumerate(states, start=1):
@@ -137,6 +156,8 @@ def pressure_deflection_figure(state: GasState, angle_units: str = "Degrees"):
     colors = cycle(STATE_COLORS)
 
     fig = Figure(figsize=(5.5, 4.5))
+    FigureCanvasAgg(fig)
+    _attach_notebook_repr(fig)
     ax = fig.subplots()
     plotted = False
     maxp = 1.0
@@ -224,6 +245,8 @@ def theta_beta_m_figure(state: GasState):
     theta_deg = np.where(theta_deg < 0, 0, theta_deg)
 
     fig = Figure(figsize=(5.5, 4.5))
+    FigureCanvasAgg(fig)
+    _attach_notebook_repr(fig)
     ax = fig.subplots()
     contours = ax.contour(mach_grid, beta_grid_deg, theta_deg, levels=np.arange(5, 40, 5), colors="k", linewidths=2)
     ax.clabel(contours, inline=True, fontsize=max(8, fontsize - 2))
