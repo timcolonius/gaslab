@@ -378,7 +378,7 @@ class GasLabApp:
         self.mode = pn.widgets.RadioButtonGroup(
             name="Mode",
             options=["Nondimensional", "Dimensional"],
-            value="Nondimensional",
+            value="Dimensional",
             button_type="default",
         )
         self.angle_units = pn.widgets.RadioButtonGroup(
@@ -1259,15 +1259,19 @@ class GasLabApp:
                         sizing_mode="stretch_width",
                     ),
                     title="Process",
-                    collapsed=True,
+                    collapsed=False,
                     styles=SUBPANEL_STYLE,
                     margin=5,
                     width=520,
                 ),
                 pn.Card(
-                    self.mollier_panel,
+                    pn.Column(
+                        pn.Spacer(height=42),
+                        self.mollier_panel,
+                        sizing_mode="stretch_width",
+                    ),
                     title="Mollier Diagram",
-                    collapsed=True,
+                    collapsed=False,
                     styles=SUBPANEL_STYLE,
                     margin=5,
                     width=520,
