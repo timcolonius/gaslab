@@ -40,7 +40,8 @@ jobs:
 
       - name: Export static app
         run: |
-          rm -rf docs
+          mkdir -p docs
+          rm -rf docs/app
           mkdir -p docs/app
           panel convert app.py --to pyodide-worker --out docs/app
           python scripts/prepare_static_export.py

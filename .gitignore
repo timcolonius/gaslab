@@ -15,7 +15,11 @@ dist/
 *.egg-info/
 
 # Static export artifacts
-docs/
+docs/*
+!docs/index.html
+!docs/assets/
+!docs/assets/gaslab_banner.png
+!docs/.nojekyll
 
 # Jupyter
 .ipynb_checkpoints/

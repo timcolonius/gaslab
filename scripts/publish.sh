@@ -24,7 +24,8 @@ else
 fi
 
 echo "Rebuilding static site..."
-rm -rf docs
+mkdir -p docs
+rm -rf docs/app
 mkdir -p docs/app
 "${PANEL_BIN}" convert app.py --to pyodide-worker --out docs/app
 "${PYTHON_BIN}" scripts/prepare_static_export.py
@@ -36,6 +37,7 @@ git status --short
 echo
 echo "Staging changes..."
 git add .
+git add -f docs/index.html docs/assets/gaslab_banner.png docs/.nojekyll
 
 if git diff --cached --quiet; then
   echo "No staged changes to commit."
