@@ -11,5 +11,4 @@ GitHub Pages serves this site from `docs/`.
 - GasLab app: `/app/`
 
 The deployment workflow builds the static Panel export into `docs/app/` and
-generates a small landing page at `docs/index.html` that embeds the app in an
-iframe.
+keeps `docs/index.html` as a normal hand-edited landing page.
