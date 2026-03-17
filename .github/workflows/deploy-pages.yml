@@ -46,7 +46,6 @@ jobs:
           panel convert app.py \
             --to pyodide-worker \
             --compiled \
-            --pwa \
             --disable-http-patch \
             --requirements scripts/pyodide_requirements.txt \
             --out docs/app

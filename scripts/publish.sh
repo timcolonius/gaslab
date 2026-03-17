@@ -30,7 +30,6 @@ mkdir -p docs/app
 "${PANEL_BIN}" convert app.py \
   --to pyodide-worker \
   --compiled \
-  --pwa \
   --disable-http-patch \
   --requirements scripts/pyodide_requirements.txt \
   --out docs/app
