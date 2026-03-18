@@ -76,35 +76,48 @@
     </style>
   </head>
   <body>
-    <div class="header">
-      <img src="assets/gaslab_banner.png" class="banner" alt="GasLab banner" />
+  <div class="header">
+    <img src="assets/gaslab_banner.png" class="banner" alt="GasLab banner" />
+  </div>
+
+  <div class="container">
+    <div class="title">GasLab</div>
+    <div class="subtitle">Interactive Compressible Flow Explorer</div>
+
+    <div class="buttons">
+      <a class="button" href="app/" target="_blank" rel="noopener">Launch App</a>
+      <a class="button secondary" href="https://github.com/timcolonius/gaslab" target="_blank" rel="noopener">View Source on GitHub</a>
+      <a class="button secondary" href="https://github.com/timcolonius/gaslab/blob/main/notebooks/01_getting_started.ipynb" target="_blank" rel="noopener">Getting Started Notebook</a>
     </div>
 
-    <div class="container">
-      <div class="title">GasLab</div>
-      <div class="subtitle">Interactive Compressible Flow Explorer</div>
+    <div class="description">
+      GasLab consists of two complementary components.
 
-      <div class="buttons">
-        <a class="button" href="app/" target="_blank" rel="noopener">Launch App</a>
-        <a class="button secondary" href="https://github.com/timcolonius/gaslab" target="_blank" rel="noopener">View Source on GitHub</a>
-        <a class="button secondary" href="https://github.com/timcolonius/gaslab/blob/main/notebooks/01_getting_started.ipynb" target="_blank" rel="noopener">Getting started</a>
-      </div>
+      <br /><br />
 
-      <div class="description">
-       <br /><br />
-        GasLab is a Python package for exploring compressible flow processes,
-        including shocks, Prandtl-Meyer expansions, quasi-one-dimensional area change,
-        Fanno flow, and Rayleigh flow.  Users can define flow/thermodynamic states and processes connecting them, 
-        and use these to solve problems from homework to research.
-      
-        <br /><br />
-        There is also a browser-based intercative tool that uses the package to build flow processes graphically, 
-        inspect the resulting states, view the graphically, and export the equivalent Python commands for further analysis.
-      </div>
+      The <strong>GasLab Python package</strong> provides a programmatic interface for constructing and analyzing compressible-flow processes, including shocks, Prandtl&ndash;Meyer expansions, quasi-one-dimensional area change, Fanno flow, and Rayleigh flow. It is designed for use in scripts and Jupyter notebooks, and supports applications ranging from homework exercises to research calculations.
 
-      <div class="footer">
-        Tim Colonius • California Institute of Technology
-      </div>
+      <br /><br />
+
+      The <strong>GasLab web application</strong>, built on the same computational engine, provides an interactive graphical entry point into these problems. Users can construct flow processes step-by-step, inspect the resulting states, view them graphically, and export the equivalent Python commands for further analysis.
+
+      <br /><br />
+
+      A collection of worked examples is available as Jupyter notebooks in the repository. These illustrate typical workflows and standard compressible-flow problems, and provide a natural bridge between the graphical interface and direct use of the Python package.
+
+      <br /><br />
+
+      Available notebooks:
+      <br />
+      <a href="https://github.com/timcolonius/gaslab/blob/main/notebooks/01_getting_started.ipynb" target="_blank" rel="noopener">Getting started using GasLab</a>,
+      <a href="https://github.com/timcolonius/gaslab/blob/main/notebooks/02_de_laval.ipynb" target="_blank" rel="noopener">Regimes of a de Laval nozzle</a>,
+      <a href="https://github.com/timcolonius/gaslab/blob/main/notebooks/03_flow_turning.ipynb" target="_blank" rel="noopener">Oblique shocks and Prandtl-Meyer expansions</a>,
+      <a href="https://github.com/timcolonius/gaslab/blob/main/notebooks/04_wave_interactions.ipynb" target="_blank" rel="noopener">Wave interactions</a>.
     </div>
-  </body>
+
+    <div class="footer">
+      Tim Colonius • California Institute of Technology
+    </div>
+  </div>
+</body>
 </html>
